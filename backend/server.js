@@ -10,9 +10,6 @@ const attendanceRoutes = require('./routes/attendanceRoutes');
 // Load environment variables
 dotenv.config();
 
-// Initialize DB
-connectDB();
-
 const app = express();
 
 // Middleware
@@ -30,8 +27,14 @@ app.get('/', (req, res) => {
   res.send('Anganwadi Portal API is running smoothly...');
 });
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Start accepting requests only after the database is ready.
+const startServer = async () => {
+  await connectDB();
+
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+};
+
+startServer();
