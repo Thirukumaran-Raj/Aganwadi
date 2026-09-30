@@ -1,37 +1,49 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const dns = require('dns');
+
+dotenv.config();
+
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
 const childRoutes = require('./routes/childRoutes');
 const inventoryRoutes = require('./routes/inventoryRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
-
-// Load environment variables
-dotenv.config();
+const centreRoutes = require('./routes/centreRoutes');
+const beneficiaryRoutes = require('./routes/beneficiaryRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+const growthRoutes = require('./routes/growthRoutes');
+const userRoutes = require('./routes/userRoutes');
+const auditRoutes = require('./routes/auditRoutes');
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes Setup
-app.use('/api/auth', authRoutes); // This mounts the auth routes at http://localhost:5000/api/auth
+app.use('/api/auth', authRoutes);
 app.use('/api/children', childRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/attendance', attendanceRoutes);
+app.use('/api/centres', centreRoutes);
+app.use('/api/beneficiaries', beneficiaryRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/growth', growthRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/audit', auditRoutes);
 
-// Simple test route
 app.get('/', (req, res) => {
   res.send('Anganwadi Portal API is running smoothly...');
 });
 
-// Start accepting requests only after the database is ready.
 const startServer = async () => {
   await connectDB();
 
   const PORT = process.env.PORT || 5000;
+
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });

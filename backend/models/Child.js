@@ -4,6 +4,7 @@ const childSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    trim: true,
   },
   dateOfBirth: {
     type: Date,
@@ -17,19 +18,112 @@ const childSchema = new mongoose.Schema({
   parentName: {
     type: String,
     required: true,
+    trim: true,
   },
-  // We link the child to the specific worker who registered them
+  fatherName: {
+    type: String,
+    trim: true,
+    default: '',
+  },
+  motherName: {
+    type: String,
+    trim: true,
+    default: '',
+  },
+  guardian: {
+    type: String,
+    trim: true,
+    default: '',
+  },
+  mobile: {
+    type: String,
+    trim: true,
+    default: '',
+  },
+  address: {
+    type: String,
+    trim: true,
+    default: '',
+  },
+  state: {
+    type: String,
+    trim: true,
+    default: '',
+  },
+  district: {
+    type: String,
+    trim: true,
+    default: '',
+  },
+  block: {
+    type: String,
+    trim: true,
+    default: '',
+  },
+  village: {
+    type: String,
+    trim: true,
+    default: '',
+  },
+  awc: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'AnganwadiCentre',
+    default: null,
+  },
+  registrationDate: {
+    type: Date,
+    default: Date.now,
+  },
+  status: {
+    type: String,
+    enum: ['Active', 'Inactive', 'Transferred', 'Deleted'],
+    default: 'Active',
+  },
+  photo: {
+    type: String,
+    default: '',
+  },
   registeredBy: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: 'User', 
+    ref: 'User',
   },
-  // An array to keep a history of health checkups
   healthLogs: [{
     date: { type: Date, default: Date.now },
-    weight: { type: Number }, // in kg
-    height: { type: Number }, // in cm
-    notes: { type: String }
+    weight: { type: Number },
+    height: { type: Number },
+    muac: { type: Number, default: null },
+    notes: { type: String, default: '' },
+    status: {
+      type: String,
+      enum: ['Normal', 'Underweight', 'Stunted', 'Wasted', 'SAM', 'MAM'],
+      default: 'Normal',
+    },
+  }],
+  growthStatus: {
+    type: String,
+    enum: ['Normal', 'Underweight', 'Stunted', 'Wasted', 'SAM', 'MAM'],
+    default: 'Normal',
+  },
+  nutrition: [{
+    date: Date,
+    service: String,
+    item: String,
+    quantity: Number,
+    status: String,
+    remarks: String,
+  }],
+  immunization: [{
+    vaccine: String,
+    dose: String,
+    dueDate: Date,
+    givenDate: Date,
+    status: {
+      type: String,
+      enum: ['Upcoming', 'Due', 'Completed', 'Missed'],
+      default: 'Upcoming',
+    },
+    remarks: String,
   }]
 }, {
   timestamps: true,

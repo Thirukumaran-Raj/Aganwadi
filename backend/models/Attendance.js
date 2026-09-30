@@ -4,19 +4,36 @@ const attendanceSchema = new mongoose.Schema({
   date: {
     type: Date,
     required: true,
+    index: true,
   },
-  // Link the attendance log to the specific worker who took it
+  centre: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'AnganwadiCentre',
+    default: null,
+  },
   managedBy: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'User',
   },
-  // An array holding the status of every child for that day
+  scope: {
+    type: String,
+    enum: ['Children', 'Workers'],
+    default: 'Children',
+  },
   records: [{
     childId: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
       ref: 'Child'
+    },
+    workerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Worker'
+    },
+    status: {
+      type: String,
+      enum: ['Present', 'Absent', 'Holiday', 'Leave', 'On Duty'],
+      default: 'Present',
     },
     present: {
       type: Boolean,
@@ -25,8 +42,17 @@ const attendanceSchema = new mongoose.Schema({
     mealProvided: {
       type: Boolean,
       default: false
+    },
+    remarks: {
+      type: String,
+      default: '',
     }
-  }]
+  }],
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+  },
 }, {
   timestamps: true,
 });

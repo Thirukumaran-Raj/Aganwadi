@@ -7,6 +7,7 @@ A full-stack web application designed to digitize and streamline the daily opera
 ## 🚀 Features
 
 - 🔐 **Secure Authentication** — Role-based login system secured with JSON Web Tokens (JWT).
+- 🧑‍💼 **Staff Administration** — Admin-managed roles, account status, and centre assignments with an audit history.
 - 👦 **Beneficiary Management** — Register new children, track demographic data, and view individual profiles.
 - 📋 **Daily Tracker** — Interactive daily roster to log child attendance and meal distribution.
 - 📦 **Inventory Management** — Real-time tracking system for food, medicine, and general supplies with quick-adjust controls.
@@ -64,8 +65,11 @@ Create a `.env` file inside the `backend` directory:
 ```env
 PORT=5000
 MONGO_URI=your_mongodb_atlas_connection_string
-JWT_SECRET=your_super_secret_key
+JWT_SECRET=replace_with_a_long_random_secret
+ADMIN_BOOTSTRAP_KEY=replace_with_a_separate_random_key
 ```
+
+Generate separate random values for `JWT_SECRET` and `ADMIN_BOOTSTRAP_KEY` (for example, with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`). Keep the bootstrap key private; it is accepted only until the first administrator account is created.
 
 Start the backend server:
 
@@ -84,6 +88,8 @@ npm run dev
 ```
 
 The app will be available at `http://localhost:5173` by default.
+
+For a new database, open `/setup-admin` and create the first administrator using the configured `ADMIN_BOOTSTRAP_KEY`. The bootstrap endpoint closes once an administrator exists. Administrators can then create staff accounts, assign centres, adjust roles or status, and review account audit events from **Staff & audit** in the dashboard.
 
 ---
 

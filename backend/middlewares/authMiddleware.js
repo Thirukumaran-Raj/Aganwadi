@@ -16,6 +16,13 @@ const protect = async (req, res, next) => {
       // Find the user in the database (minus their password) and attach them to the request
       req.user = await User.findById(decoded.id).select('-password');
 
+      if (!req.user) {
+        return res.status(401).json({ message: 'Not authorized, user no longer exists' });
+      }
+      if (req.user.status !== 'Active') {
+        return res.status(401).json({ message: 'This account is not active' });
+      }
+
       next(); // Move on to the next piece of logic (the controller)
     } catch (error) {
       res.status(401).json({ message: 'Not authorized, token failed' });
@@ -27,4 +34,12 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+const authorize = (...roles) => (req, res, next) => {
+  if (!req.user || !roles.includes(String(req.user.role).toLowerCase())) {
+    return res.status(403).json({ message: 'You do not have permission to perform this action' });
+  }
+
+  next();
+};
+
+module.exports = { protect, authorize };

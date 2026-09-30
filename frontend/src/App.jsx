@@ -7,6 +7,10 @@ import AddChild from './pages/AddChild';
 import ChildProfile from './pages/ChildProfile';
 import Inventory from './pages/Inventory';
 import Attendance from './pages/Attendance';
+import Beneficiaries from './pages/Beneficiaries';
+import Centres from './pages/Centres';
+import SetupAdmin from './pages/SetupAdmin';
+import StaffManagement from './pages/StaffManagement';
 
 function App() {
   return (
@@ -16,12 +20,15 @@ function App() {
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/setup-admin" element={<SetupAdmin />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add-child" element={<AddChild />} />
           <Route path="/child/:id" element={<ChildProfile />} />
           <Route path="/inventory" element={<Inventory />} />
           <Route path="/attendance" element={<Attendance />} />
-          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/beneficiaries" element={<Beneficiaries />} />
+          <Route path="/centres" element={<Centres />} />
+          <Route path="/staff" element={<StaffManagement />} />
         </Routes>
       </Router>
     </AuthProvider>

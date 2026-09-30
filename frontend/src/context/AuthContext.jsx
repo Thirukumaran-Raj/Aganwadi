@@ -1,17 +1,17 @@
-import { createContext, useState, useEffect } from 'react';
+import { useState } from 'react';
 import api from '../services/api';
-
-export const AuthContext = createContext();
+import { AuthContext } from './authContextValue';
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
+  const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem('userInfo');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    try {
+      return storedUser ? JSON.parse(storedUser) : null;
+    } catch {
+      localStorage.removeItem('userInfo');
+      return null;
     }
-  }, []);
+  });
 
   const login = async (email, password) => {
     try {
@@ -25,9 +25,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   // NEW: Add the register function
-  const register = async (name, email, password, role) => {
+  const register = async (name, email, password) => {
     try {
-      const response = await api.post('/auth/register', { name, email, password, role });
+      const response = await api.post('/auth/register', { name, email, password });
       setUser(response.data);
       localStorage.setItem('userInfo', JSON.stringify(response.data));
       return response.data;

@@ -1,0 +1,179 @@
+.register-panel {
+  --register-copy: #71818e;
+}
+
+.register-form-wrap {
+  width: min(100%, 430px);
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+
+.register-heading {
+  margin-bottom: 21px;
+}
+
+.register-heading h2 {
+  max-width: 370px;
+  font-size: 40px;
+}
+
+.register-heading .login-heading__copy {
+  font-size: 13px;
+}
+
+.register-form {
+  gap: 13px;
+}
+
+.register-form .login-field {
+  gap: 6px;
+}
+
+.register-form .login-input-wrap {
+  min-height: 48px;
+}
+
+.register-form .login-input-wrap input {
+  height: 44px;
+}
+
+.register-role-fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.register-role-fieldset legend {
+  margin-bottom: 7px;
+  color: #34463d;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.register-role-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.register-role-option {
+  position: relative;
+  min-width: 0;
+  min-height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid #dce3dc;
+  border-radius: 7px;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.register-role-option:hover {
+  transform: translateY(-1px);
+  border-color: #9abbd2;
+}
+
+.register-role-option.is-selected {
+  border-color: #4d93c8;
+  background: #f1f8fc;
+  box-shadow: inset 0 0 0 1px rgba(77, 147, 200, 0.16);
+}
+
+.register-role-option:focus-within {
+  outline: 3px solid rgba(77, 147, 200, 0.25);
+  outline-offset: 2px;
+}
+
+.register-role-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.register-role-option__copy {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.register-role-option__copy strong {
+  overflow: hidden;
+  color: var(--login-ink);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.register-role-option__copy > span {
+  overflow: hidden;
+  color: var(--login-muted);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.register-role-option__indicator {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  border: 1px solid #b7c5cd;
+  border-radius: 50%;
+  background: #fff;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.register-role-option.is-selected .register-role-option__indicator {
+  border: 4px solid var(--login-primary);
+  box-shadow: 0 0 0 2px rgba(40, 127, 190, 0.12);
+}
+
+.register-form .login-submit {
+  min-height: 50px;
+  margin-top: 3px;
+}
+
+.register-login {
+  margin-top: 19px;
+}
+
+.register-form-wrap .login-error {
+  margin-top: -10px;
+  margin-bottom: 17px;
+}
+
+@media (max-width: 850px) and (min-width: 761px) {
+  .register-heading h2 {
+    font-size: 35px;
+  }
+}
+
+@media (max-width: 760px) {
+  .register-panel {
+    min-height: calc(100svh - 210px);
+  }
+
+  .register-form-wrap {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .register-heading {
+    margin-bottom: 21px;
+  }
+
+  .register-heading h2 {
+    font-size: 36px;
+  }
+
+  .register-form {
+    gap: 13px;
+  }
+}

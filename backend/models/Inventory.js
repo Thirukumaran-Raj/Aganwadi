@@ -4,10 +4,11 @@ const inventorySchema = new mongoose.Schema({
   itemName: {
     type: String,
     required: true,
+    trim: true,
   },
   category: {
     type: String,
-    enum: ['Food', 'Medicine', 'Supplies'],
+    enum: ['Food', 'Nutrition', 'Medicine', 'Supplies', 'Education', 'First Aid', 'Equipment', 'Furniture'],
     required: true,
   },
   quantity: {
@@ -16,15 +17,48 @@ const inventorySchema = new mongoose.Schema({
     default: 0,
   },
   unit: {
-    type: String, // e.g., 'kg', 'liters', 'packets'
+    type: String,
     required: true,
   },
-  // Link the inventory to the specific worker/center
+  openingStock: {
+    type: Number,
+    default: 0,
+  },
+  received: {
+    type: Number,
+    default: 0,
+  },
+  distributed: {
+    type: Number,
+    default: 0,
+  },
+  damaged: {
+    type: Number,
+    default: 0,
+  },
+  minimumStock: {
+    type: Number,
+    default: 0,
+  },
+  expiryDate: {
+    type: Date,
+    default: null,
+  },
   managedBy: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'User',
-  }
+  },
+  centre: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'AnganwadiCentre',
+    default: null,
+  },
+  status: {
+    type: String,
+    enum: ['Healthy', 'Low Stock', 'Expired', 'Near Expiry'],
+    default: 'Healthy',
+  },
 }, {
   timestamps: true,
 });

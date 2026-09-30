@@ -1,1 +1,20 @@
 @import "tailwindcss";
+
+:root {
+	font-family: "Roboto", sans-serif;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	font-family: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+}
