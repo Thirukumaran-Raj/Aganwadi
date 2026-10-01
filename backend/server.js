@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const dns = require('dns');
+const mongoose = require('mongoose');
 
 dotenv.config();
 
@@ -37,6 +38,14 @@ app.use('/api/audit', auditRoutes);
 
 app.get('/', (req, res) => {
   res.send('Anganwadi Portal API is running smoothly...');
+});
+
+app.get('/api/health', (req, res) => {
+  const databaseConnected = mongoose.connection.readyState === 1;
+  res.status(databaseConnected ? 200 : 503).json({
+    status: databaseConnected ? 'ok' : 'unavailable',
+    database: databaseConnected ? 'connected' : 'disconnected',
+  });
 });
 
 const startServer = async () => {

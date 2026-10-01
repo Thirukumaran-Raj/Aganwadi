@@ -20,6 +20,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('userInfo', JSON.stringify(response.data));
       return response.data;
     } catch (error) {
+      if (error.response?.status === 503 || !error.response) {
+        throw 'Sign-in is temporarily unavailable. Please try again shortly.';
+      }
       throw error.response?.data?.message || 'Login failed';
     }
   };
@@ -32,6 +35,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('userInfo', JSON.stringify(response.data));
       return response.data;
     } catch (error) {
+      if (error.response?.status === 503 || !error.response) {
+        throw 'Account registration is temporarily unavailable. Please try again shortly.';
+      }
       throw error.response?.data?.message || 'Registration failed';
     }
   };

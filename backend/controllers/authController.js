@@ -1,7 +1,22 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const mongoose = require('mongoose');
 const AuditLog = require('../models/AuditLog');
+
+const isDatabaseUnavailable = (error) => mongoose.connection.readyState !== 1
+  || error.name === 'MongoServerSelectionError'
+  || error.message?.includes('buffering timed out');
+
+const respondToAuthFailure = (res, error) => {
+  console.error('Authentication request failed:', error.message);
+  const unavailable = isDatabaseUnavailable(error);
+  return res.status(unavailable ? 503 : 500).json({
+    message: unavailable
+      ? 'Sign-in is temporarily unavailable because the database is not connected. Please try again shortly.'
+      : 'Unable to process the authentication request right now.',
+  });
+};
 
 // Helper function to generate a JWT token
 const generateToken = (id) => {
@@ -51,7 +66,10 @@ const registerUser = async (req, res) => {
       res.status(400).json({ message: 'Invalid user data received' });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (error.code === 11000) {
+      return res.status(409).json({ message: 'An account with this email already exists' });
+    }
+    return respondToAuthFailure(res, error);
   }
 };
 
@@ -128,7 +146,7 @@ const loginUser = async (req, res) => {
       res.status(401).json({ message: 'Invalid email or password' });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return respondToAuthFailure(res, error);
   }
 };
 

@@ -91,6 +91,14 @@ The app will be available at `http://localhost:5173` by default.
 
 For a new database, open `/setup-admin` and create the first administrator using the configured `ADMIN_BOOTSTRAP_KEY`. The bootstrap endpoint closes once an administrator exists. Administrators can then create staff accounts, assign centres, adjust roles or status, and review account audit events from **Staff & audit** in the dashboard.
 
+### Production sign-in checks
+
+- In Vercel, confirm `VITE_API_BASE_URL` points to the deployed backend and redeploy after changing it.
+- In Render, confirm `MONGO_URI`, `JWT_SECRET`, and `ADMIN_BOOTSTRAP_KEY` are set in the backend service environment, then restart or redeploy the service.
+- Check `https://<backend-host>/api/health`. A healthy response is HTTP 200 with `{"status":"ok","database":"connected"}`.
+- In MongoDB Atlas, confirm the database user/password in `MONGO_URI` are current and the Atlas network access list allows the Render service to connect.
+- If Render returns a wake error, check the service's deploy/runtime logs; a frontend change cannot restart an unavailable backend instance.
+
 ---
 
 ## 📝 Future Scope
